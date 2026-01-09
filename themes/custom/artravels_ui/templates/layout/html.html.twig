@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A R Travels - Premium Car & Driver Services</title>
+  <meta name="description" content="Reliable cars and professional drivers at your fingertips. A R Travels is launching soon.">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Tailwind CSS (via CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              blue: '#00273d',   /* Primary Brand Color */
+              yellow: '#f7c600', /* Accent Brand Color */
+              dark: '#0f172a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Styles for Glassmorphism and animations */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Timer box styled for Light Hero: Dark background for contrast */
+    .timer-box {
+      background: rgba(0, 39, 61, 0.9);
+      border: 1px solid rgba(247, 198, 0, 0.5);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Smooth Scroll */
+    html { scroll-behavior: smooth; }
+
+    /* =========================================
+       LOADER STYLES
+    ========================================= */
+    #loader-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      transition: opacity 0.5s ease-out, visibility 0.5s;
+    }
+
+    .loader-hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .car-animation {
+      font-size: 3rem;
+      color: #00273d; /* Brand Blue */
+      position: relative;
+      /* Start from left, move to center, pause, move right */
+      animation: driveAcross 2.5s ease-in-out infinite;
+    }
+
+    .road-line {
+      width: 150px;
+      height: 3px;
+      background-color: #f7c600; /* Brand Yellow */
+      margin-top: 10px;
+      border-radius: 2px;
+      opacity: 0.7;
+    }
+
+    @keyframes driveAcross {
+      0% {
+        transform: translateX(-100px);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      40% {
+        transform: translateX(0);
+      }
+      70% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(100px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-800 antialiased overflow-x-hidden">
+
+<!-- ==========================================
+     FULL SCREEN LOADER
+=========================================== -->
+<div id="loader-wrapper">
+  <i class="fa-solid fa-car-side car-animation"></i>
+  <div class="road-line"></div>
+  <p class="mt-4 text-brand-blue font-semibold tracking-wider text-xs uppercase animate-pulse">Starting Engine...</p>
+</div>
+
+<!-- ==========================================
+     HERO SECTION (LIGHT THEME)
+=========================================== -->
+<header class="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+
+  <!-- Background Image with Light Overlay -->
+  <div class="absolute inset-0 z-0">
+    <!-- Placeholder Image: Car/Road theme -->
+    <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop"
+         alt="Luxury Car on Road"
+         class="w-full h-full object-cover">
+    <!-- White Overlay for Light Theme -->
+    <div class="absolute inset-0 bg-white/90"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-100"></div>
+  </div>
+
+  <!-- Content Container -->
+  <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center animate-fade-in-up">
+
+    <!-- Logo Image (Adjusted for responsiveness) -->
+    <div class="mb-8 p-1 bg-brand-blue/5 rounded-full border-2 border-brand-blue/10 backdrop-blur-sm shadow-xl">
+      <!-- Increased size: w-32 h-32 (mobile) and md:w-48 md:h-48 (desktop) -->
+      <img src="/themes/custom/artravels_ui/images/ar_logo.svg" alt="A R Travels Logo" class="w-32 h-32 md:w-48 md:h-48 object-contain rounded-full">
+    </div>
+
+    <!-- Pre-heading -->
+    <span class="text-brand-blue font-bold tracking-widest uppercase text-sm md:text-base mb-4 block">
+                Something exceptional is driving your way
+            </span>
+
+    <!-- Main Headline -->
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 leading-tight mb-6">
+      Your Journey <br class="hidden md:block" />
+      <span class="text-brand-blue">Begins Soon</span>
+    </h1>
+
+    <!-- Sub-headline -->
+    <p class="text-gray-600 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed font-medium">
+      Reliable cars and professional drivers at your fingertips.
+      We are getting ready to drive you safely to your destination with
+      <strong>A R Travels</strong>.
+    </p>
+
+    <!-- Countdown Timer -->
+    <div id="countdown" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 w-full max-w-2xl">
+      <!-- Javascript will populate this -->
+    </div>
+  </div>
+
+  <!-- Scroll Down Indicator (Dark Color for Light BG) -->
+  <a href="#services" class="absolute bottom-8 animate-bounce text-brand-blue hover:text-brand-yellow transition-colors cursor-pointer z-20">
+    <i class="fa-solid fa-chevron-down text-2xl"></i>
+  </a>
+</header>
+
+<!-- ==========================================
+     SERVICES SECTION (DARK THEME)
+=========================================== -->
+<section id="services" class="py-20 bg-brand-dark">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-16">
+      <!-- White text for dark background -->
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">What We Offer</h2>
+      <div class="w-20 h-1 bg-brand-yellow mx-auto rounded-full"></div>
+    </div>
+
+    <!-- Grid Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <!-- Card 1: Chauffeurs -->
+      <div class="bg-white rounded-xl shadow-lg p-8 border-b-4 border-brand-yellow hover:-translate-y-2 transition-transform duration-300 group">
+        <div class="w-16 h-16 bg-brand-blue/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors duration-300">
+          <i class="fa-solid fa-user-tie text-3xl text-brand-blue group-hover:text-brand-yellow transition-colors"></i>
+        </div>
+        <h3 class="text-xl font-bold text-brand-blue mb-3">Professional Chauffeurs</h3>
+        <p class="text-gray-600 leading-relaxed">
+          Experienced, vetted, and courteous drivers ready to take the wheel so you can relax.
+        </p>
+      </div>
+
+      <!-- Card 2: Rental with Driver -->
+      <div class="bg-white rounded-xl shadow-lg p-8 border-b-4 border-brand-yellow hover:-translate-y-2 transition-transform duration-300 group">
+        <div class="w-16 h-16 bg-brand-blue/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors duration-300">
+          <i class="fa-solid fa-car text-3xl text-brand-blue group-hover:text-brand-yellow transition-colors"></i>
+        </div>
+        <h3 class="text-xl font-bold text-brand-blue mb-3">Car Rental with Driver</h3>
+        <p class="text-gray-600 leading-relaxed">
+          Complete travel packages combining luxury vehicles with expert navigation.
+        </p>
+      </div>
+
+      <!-- Card 3: Self Drive -->
+      <div class="bg-white rounded-xl shadow-lg p-8 border-b-4 border-brand-yellow hover:-translate-y-2 transition-transform duration-300 group">
+        <div class="w-16 h-16 bg-brand-blue/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors duration-300">
+          <i class="fa-solid fa-key text-3xl text-brand-blue group-hover:text-brand-yellow transition-colors"></i>
+        </div>
+        <h3 class="text-xl font-bold text-brand-blue mb-3">Self Drive Car Rental</h3>
+        <p class="text-gray-600 leading-relaxed">
+          Freedom to explore. Choose from our fleet of hatchbacks and sedans for your own adventure.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     CALL TO ACTION (DARK THEME)
+=========================================== -->
+<section class="py-20 bg-brand-blue relative overflow-hidden">
+  <!-- Decorative bg circle -->
+  <div class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+
+  <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+      Ready to Book Your Ride?
+    </h2>
+    <p class="text-gray-300 text-lg mb-10">
+      Need a ride or have a query regarding our upcoming fleet?
+      Chat with us directly to get notified when we launch.
+    </p>
+
+    <a href="https://api.whatsapp.com/send/?phone=+919073912097&text=Hello.%0D%0AI+have+a+querry+about+your+service.&type=phone_number" target="_blank" class="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold py-4 px-10 rounded-full transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl group">
+      <i class="fa-brands fa-whatsapp text-2xl group-hover:rotate-12 transition-transform"></i>
+      <span class="text-lg">Chat on WhatsApp</span>
+    </a>
+    <p class="mt-4 text-sm text-gray-400">Click to start a conversation</p>
+  </div>
+</section>
+
+<!-- ==========================================
+     FOOTER
+=========================================== -->
+<footer class="bg-gray-900 text-white py-10 border-t border-gray-800">
+  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+
+    <!-- Copyright -->
+    <div class="text-gray-400 text-sm">
+      &copy; <span id="year"></span> A R Travels. All rights reserved.
+    </div>
+
+    <!-- Social Links -->
+    <div class="flex gap-6">
+      <a href="#" class="text-gray-400 hover:text-brand-yellow transition-colors text-xl">
+        <i class="fa-brands fa-facebook-f"></i>
+      </a>
+      <a href="#" class="text-gray-400 hover:text-brand-yellow transition-colors text-xl">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="#" class="text-gray-400 hover:text-brand-yellow transition-colors text-xl">
+        <i class="fa-brands fa-linkedin-in"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- ==========================================
+     JAVASCRIPT
+=========================================== -->
+<script>
+  // 1. Dynamic Year for Footer
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // 2. Countdown Timer Logic
+  // Set the date we're counting down to (30 days from now)
+  const countDownDate = new Date();
+  countDownDate.setDate(countDownDate.getDate() + 15);
+  const targetTime = countDownDate.getTime();
+
+  const countdownElement = document.getElementById('countdown');
+
+  function updateTimer() {
+    const now = new Date().getTime();
+    const distance = targetTime - now;
+
+    // Time calculations
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // HTML Structure for each time unit
+    const createTimeBox = (value, label) => `
+                <div class="timer-box flex flex-col items-center justify-center p-4 rounded-lg shadow-lg backdrop-blur-md">
+                    <span class="text-3xl md:text-4xl font-bold text-white font-mono">${value < 10 ? '0' + value : value}</span>
+                    <span class="text-brand-yellow text-xs md:text-sm uppercase tracking-wider mt-1">${label}</span>
+                </div>
+            `;
+
+    // If the count down is finished
+    if (distance < 0) {
+      countdownElement.innerHTML = `
+                    <div class="col-span-4 text-center p-4 bg-brand-yellow/20 rounded-lg backdrop-blur-sm border border-brand-yellow">
+                        <span class="text-2xl font-bold text-white">We have launched!</span>
+                    </div>
+                `;
+      return;
+    }
+
+    // Render
+    countdownElement.innerHTML =
+      createTimeBox(days, 'Days') +
+      createTimeBox(hours, 'Hours') +
+      createTimeBox(minutes, 'Minutes') +
+      createTimeBox(seconds, 'Seconds');
+  }
+
+  // Run immediately then every second
+  updateTimer();
+  setInterval(updateTimer, 1000);
+
+  // 3. Smooth Fade In Animation (Simple Intersection Observer)
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('opacity-100', 'translate-y-0');
+          entry.target.classList.remove('opacity-0', 'translate-y-10');
+        }
+      });
+    });
+    // Add 'opacity-0 translate-y-10 transition-all duration-700' to elements you want to animate if expanding later
+  });
+
+  // 4. Loader Logic
+  window.addEventListener('load', () => {
+    // Keep loader for at least 2 seconds so animation is visible
+    setTimeout(() => {
+      const loader = document.getElementById('loader-wrapper');
+      loader.classList.add('loader-hidden');
+
+      // Remove from DOM after transition completes to clean up
+      loader.addEventListener('transitionend', () => {
+        loader.remove();
+      });
+    }, 2000);
+  });
+</script>
+</body>
+</html>
