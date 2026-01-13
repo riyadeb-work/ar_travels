@@ -1,36 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A R Travels - Premium Car & Driver Services</title>
-  <meta name="description" content="Reliable cars and professional drivers at your fingertips. A R Travels is launching soon.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A R Travels | Premium Car Rental & Driver Services</title>
 
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Tailwind CSS (via CDN) -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Tailwind Configuration -->
+  <!-- Google Fonts: Outfit (Headings) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Configuration & Custom Styles -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          colors: {
+            primary: '#F7C600',   /* Yellow - Main Action Color */
+            primaryDark: '#D4AA00', /* Darker Yellow - Hover State */
+            secondary: '#00273D', /* Dark Blue - Headings/Footer */
+            accent: '#F7C600',    /* Alias for Primary */
+            light: '#F8FAFC',     /* Slate-50 - Clean Background */
+            surface: '#FFFFFF',
+          },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
           },
-          colors: {
-            brand: {
-              blue: '#00273d',   /* Primary Brand Color */
-              yellow: '#f7c600', /* Accent Brand Color */
-              dark: '#0f172a',
-            }
+          boxShadow: {
+            'soft': '0 20px 40px -15px rgba(0, 39, 61, 0.1)',
+            'glow': '0 0 20px rgba(247, 198, 0, 0.4)',
           }
         }
       }
@@ -38,335 +43,920 @@
   </script>
 
   <style>
-    /* Custom Styles for Glassmorphism and animations */
-    .glass-panel {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+    /* Base Styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F8FAFC;
+      overflow-x: hidden; /* Fix horizontal scroll */
+      width: 100%;
+      color: #334155;
     }
 
-    /* Timer box styled for Light Hero: Dark background for contrast */
-    .timer-box {
-      background: rgba(0, 39, 61, 0.9);
-      border: 1px solid rgba(247, 198, 0, 0.5);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Outfit', sans-serif;
     }
 
-    /* Smooth Scroll */
-    html { scroll-behavior: smooth; }
+    /* Glassmorphism Utilities */
+    .glass {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 39, 61, 0.1);
+    }
 
-    /* =========================================
-       LOADER STYLES
-    ========================================= */
-    #loader-wrapper {
-      position: fixed;
+    /* Hero Carousel Transitions */
+    .slide {
+      transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.2s ease;
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #ffffff;
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      transition: opacity 0.5s ease-out, visibility 0.5s;
-    }
-
-    .loader-hidden {
       opacity: 0;
-      visibility: hidden;
+      z-index: 10;
+      transform: scale(1.1);
+    }
+    .slide.active {
+      opacity: 1;
+      z-index: 20;
+      transform: scale(1);
     }
 
-    .car-animation {
-      font-size: 3rem;
-      color: #00273d; /* Brand Blue */
+    /* Parallax */
+    .parallax {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    /* Footer Animation (Updated Colors) */
+    .footer-road-scene {
       position: relative;
-      /* Start from left, move to center, pause, move right */
-      animation: driveAcross 2.5s ease-in-out infinite;
+      height: 140px;
+      width: 100%;
+      background-color: #00273D;
+      overflow: hidden;
+      border-top: 4px solid #F7C600;
     }
 
     .road-line {
-      width: 150px;
-      height: 3px;
-      background-color: #f7c600; /* Brand Yellow */
-      margin-top: 10px;
-      border-radius: 2px;
-      opacity: 0.7;
+      position: absolute;
+      bottom: 30px;
+      width: 100%;
+      height: 4px;
+      background-image: linear-gradient(90deg, #64748B 50%, transparent 50%);
+      background-size: 120px 100%;
+      animation: moveRoad 1.5s linear infinite;
     }
 
-    @keyframes driveAcross {
-      0% {
-        transform: translateX(-100px);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      40% {
-        transform: translateX(0);
-      }
-      70% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(100px);
-        opacity: 0;
-      }
+    @keyframes moveRoad {
+      0% { background-position: 0 0; }
+      100% { background-position: -120px 0; }
+    }
+
+    .animated-car {
+      position: absolute;
+      bottom: 35px;
+      width: 120px;
+      height: 45px;
+      z-index: 10;
+      filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+    }
+
+    .car-1 { left: -150px; animation: driveCar 7s linear infinite; }
+    .car-2 { left: -150px; animation: driveCar 10s linear infinite 3.5s; }
+
+    @keyframes driveCar {
+      0% { transform: translateX(-200px); }
+      100% { transform: translateX(100vw); }
+    }
+
+    /* Traffic Light */
+    .traffic-light {
+      position: absolute;
+      right: 8%;
+      bottom: 90px;
+      width: 40px;
+      height: 100px;
+      background: #001f30;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      padding: 8px 0;
+      border: 2px solid #334155;
+      z-index: 5;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .light { width: 20px; height: 20px; border-radius: 50%; opacity: 0.2; transition: opacity 0.3s; }
+    .red { background-color: #EF4444; animation: lightRed 8s infinite; box-shadow: 0 0 15px #EF4444; }
+    .yellow { background-color: #F7C600; animation: lightYellow 8s infinite; box-shadow: 0 0 15px #F7C600; }
+    .green { background-color: #10B981; animation: lightGreen 8s infinite; box-shadow: 0 0 15px #10B981; }
+
+    @keyframes lightRed { 0%, 40% { opacity: 1; } 41%, 100% { opacity: 0.2; } }
+    @keyframes lightYellow { 0%, 40% { opacity: 0.2; } 41%, 55% { opacity: 1; } 56%, 100% { opacity: 0.2; } }
+    @keyframes lightGreen { 0%, 55% { opacity: 0.2; } 56%, 95% { opacity: 1; } 96%, 100% { opacity: 0.2; } }
+
+    /* Floating Button Pulse */
+    .pulse-animation {
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+      animation: pulse-green 2s infinite;
+    }
+    @keyframes pulse-green {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+
+    /* Modal Animation - Updated for Flexbox Centering */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up {
+      animation: fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Navigation Arrows */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 30;
+      color: white;
+      font-size: 2rem;
+      background: rgba(0, 39, 61, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+    .nav-arrow:hover {
+      background: #F7C600;
+      color: #00273D;
+    }
+    .nav-arrow.prev { left: 20px; }
+    .nav-arrow.next { right: 20px; }
+
+    /* Custom Scrollbar for Modal */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      margin: 10px 0; /* Add margin to top/bottom of track */
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #F7C600; /* Primary Color */
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #D4AA00; /* Primary Dark */
+    }
+
+    /* Fade In On Scroll */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      will-change: opacity, visibility;
+    }
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: none;
     }
   </style>
 </head>
-<body class="font-sans text-gray-800 antialiased overflow-x-hidden">
+<body class="text-slate-700 antialiased selection:bg-primary selection:text-secondary">
 
-<!-- ==========================================
-     FULL SCREEN LOADER
-=========================================== -->
-<div id="loader-wrapper">
-  <i class="fa-solid fa-car-side car-animation"></i>
-  <div class="road-line"></div>
-  <p class="mt-4 text-brand-blue font-semibold tracking-wider text-xs uppercase animate-pulse">Starting Engine...</p>
-</div>
+<!-- 1. Header (Glassmorphism) -->
+<header class="fixed w-full top-0 z-50 glass shadow-sm transition-all duration-300" id="navbar">
+  <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-3 group">
+      <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-secondary font-heading font-bold text-xl shadow-lg transform group-hover:rotate-6 transition duration-300">AR</div>
+      <div class="flex flex-col">
+        <span class="text-2xl font-heading font-extrabold tracking-tight text-secondary leading-none">A R Travels</span>
+        <span class="text-xs font-medium text-slate-500 tracking-wider uppercase">Premium Mobility</span>
+      </div>
+    </a>
 
-<!-- ==========================================
-     HERO SECTION (LIGHT THEME)
-=========================================== -->
-<header class="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex items-center gap-10 font-medium text-slate-600">
+      <a href="#services" class="hover:text-primary transition relative group py-2">Services<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+      <a href="#chauffeur" class="hover:text-primary transition relative group py-2">Chauffeur<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+      <a href="#self-drive" class="hover:text-primary transition relative group py-2">Self-Drive<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+      <a href="#why-us" class="hover:text-primary transition relative group py-2">Why Us<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+      <button onclick="openModal('General Inquiry', 'Consultation')" class="bg-primary text-secondary px-7 py-2.5 rounded-full font-bold shadow-lg shadow-yellow-500/20 hover:shadow-yellow-500/40 transition transform hover:-translate-y-0.5 hover:scale-105 active:scale-95 flex items-center gap-2">
+        <i class="fas fa-phone-alt text-sm"></i> Call Now
+      </button>
+    </nav>
 
-  <!-- Background Image with Light Overlay -->
-  <div class="absolute inset-0 z-0">
-    <!-- Placeholder Image: Car/Road theme -->
-    <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop"
-         alt="Luxury Car on Road"
-         class="w-full h-full object-cover">
-    <!-- White Overlay for Light Theme -->
-    <div class="absolute inset-0 bg-white/90"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-100"></div>
-  </div>
-
-  <!-- Content Container -->
-  <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center animate-fade-in-up">
-
-    <!-- Logo Image (Adjusted for responsiveness) -->
-    <div class="mb-8 p-1 bg-brand-blue/5 rounded-full border-2 border-brand-blue/10 backdrop-blur-sm shadow-xl">
-      <!-- Increased size: w-32 h-32 (mobile) and md:w-48 md:h-48 (desktop) -->
-      <img src="/themes/custom/artravels_ui/images/ar_logo.svg" alt="A R Travels Logo" class="w-32 h-32 md:w-48 md:h-48 object-contain rounded-full">
-    </div>
-
-    <!-- Pre-heading -->
-    <span class="text-brand-blue font-bold tracking-widest uppercase text-sm md:text-base mb-4 block">
-                Something exceptional is driving your way
-            </span>
-
-    <!-- Main Headline -->
-    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 leading-tight mb-6">
-      Your Journey <br class="hidden md:block" />
-      <span class="text-brand-blue">Begins Soon</span>
-    </h1>
-
-    <!-- Sub-headline -->
-    <p class="text-gray-600 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed font-medium">
-      Reliable cars and professional drivers at your fingertips.
-      We are getting ready to drive you safely to your destination with
-      <strong>A R Travels</strong>.
-    </p>
-
-    <!-- Countdown Timer -->
-    <div id="countdown" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 w-full max-w-2xl">
-      <!-- Javascript will populate this -->
+    <!-- Mobile Nav Toggle -->
+    <div class="md:hidden flex items-center gap-5">
+      <a href="tel:+919876543210" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary text-xl hover:bg-primary hover:text-white transition"><i class="fas fa-phone"></i></a>
+      <button id="menu-btn" class="text-2xl text-secondary focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
   </div>
-
-  <!-- Scroll Down Indicator (Dark Color for Light BG) -->
-  <a href="#services" class="absolute bottom-8 animate-bounce text-brand-blue hover:text-brand-yellow transition-colors cursor-pointer z-20">
-    <i class="fa-solid fa-chevron-down text-2xl"></i>
-  </a>
 </header>
 
-<!-- ==========================================
-     SERVICES SECTION (DARK THEME)
-=========================================== -->
-<section id="services" class="py-20 bg-brand-dark">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Mobile Menu Drawer (Moved Outside Header for Z-Index Fix) -->
+<!-- Updated background opacity -->
+<div id="mobile-menu" class="fixed inset-0 bg-secondary/55 backdrop-blur-xl z-[60] transform translate-x-full transition-transform duration-500 ease-in-out flex flex-col items-center justify-center gap-10 text-xl text-white">
+  <button id="close-menu" class="absolute top-6 right-6 text-3xl text-slate-400 hover:text-primary transition"><i class="fas fa-times"></i></button>
+  <div class="flex flex-col gap-6 text-center">
+    <a href="#services" class="hover:text-primary transition mobile-link text-2xl font-light">Services</a>
+    <a href="#chauffeur" class="hover:text-primary transition mobile-link text-2xl font-light">Chauffeur Fleet</a>
+    <a href="#self-drive" class="hover:text-primary transition mobile-link text-2xl font-light">Self-Drive</a>
+    <a href="#why-us" class="hover:text-primary transition mobile-link text-2xl font-light">Why Us</a>
+  </div>
+  <button onclick="openModal('General Inquiry', 'Consultation')" class="bg-primary text-secondary px-10 py-4 rounded-full font-bold text-lg mt-4 shadow-glow">Book Now</button>
+</div>
 
-    <div class="text-center mb-16">
-      <!-- White text for dark background -->
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">What We Offer</h2>
-      <div class="w-20 h-1 bg-brand-yellow mx-auto rounded-full"></div>
+<!-- 2. Hero Section -->
+<section id="hero" class="relative h-[90vh] md:h-screen w-full overflow-hidden">
+
+  <!-- Desktop Slider Arrows -->
+  <button class="nav-arrow prev hidden md:flex" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+  <button class="nav-arrow next hidden md:flex" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+
+  <!-- Slide 1 -->
+  <div class="slide active bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop');">
+    <!-- Overlay inside slide for text contrast -->
+    <div class="absolute inset-0 bg-secondary/70"></div>
+
+    <div class="container mx-auto h-full flex flex-col justify-center px-6 md:px-24 relative z-10 pt-28 md:pt-32">
+      <span class="text-primary font-bold tracking-[0.2em] uppercase mb-4 animate-fade-in-up text-sm md:text-base">Luxury Defined</span>
+      <!-- Adjusted font size to fix cut-off text on mobile -->
+      <h1 class="text-3xl sm:text-4xl md:text-7xl font-heading font-extrabold text-white mb-6 leading-tight max-w-4xl drop-shadow-lg fade-in-section">Premium Car Rentals <br><span class="text-primary">For The Elite</span></h1>
+      <p class="text-base md:text-xl text-slate-200 mb-8 md:mb-10 max-w-2xl font-light border-l-4 border-primary pl-6 fade-in-section" style="transition-delay: 0.1s;">Experience luxury and comfort with our top-tier fleet designed for your seamless journey.</p>
+      <div class="flex flex-col md:flex-row gap-4 fade-in-section" style="transition-delay: 0.2s;">
+        <button onclick="openModal('Premium Rental', 'Rental')" class="bg-primary hover:bg-yellow-400 text-secondary px-8 py-4 rounded-full font-bold text-lg transition shadow-lg shadow-yellow-500/20 transform hover:-translate-y-1">Book Your Ride</button>
+        <a href="#chauffeur" class="border border-white/30 hover:bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-full font-bold text-lg transition text-center">View Fleet</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop');">
+    <div class="absolute inset-0 bg-secondary/70"></div>
+    <div class="container mx-auto h-full flex flex-col justify-center px-6 md:px-24 relative z-10 pt-28 md:pt-32">
+      <span class="text-primary font-bold tracking-[0.2em] uppercase mb-4 text-sm md:text-base">Complete Freedom</span>
+      <!-- Adjusted font size -->
+      <h1 class="text-3xl sm:text-4xl md:text-7xl font-heading font-extrabold text-white mb-6 leading-tight drop-shadow-lg">Self-Drive <br><span class="text-primary">Without Limits</span></h1>
+      <p class="text-base md:text-xl text-slate-200 mb-8 md:mb-10 max-w-2xl font-light border-l-4 border-primary pl-6">Take the wheel and explore the world at your own pace with our well-maintained fleet.</p>
+      <button onclick="openModal('Self Drive', 'Self Drive')" class="bg-primary hover:bg-yellow-400 text-secondary px-8 py-4 rounded-full font-bold text-lg transition shadow-lg shadow-yellow-500/20 w-fit">Start Driving</button>
+    </div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1621977717126-e29965156a27?q=80&w=2070&auto=format&fit=crop');">
+    <div class="absolute inset-0 bg-secondary/70"></div>
+    <div class="container mx-auto h-full flex flex-col justify-center px-6 md:px-24 relative z-10 pt-28 md:pt-32">
+      <span class="text-primary font-bold tracking-[0.2em] uppercase mb-4 text-sm md:text-base">Executive Service</span>
+      <!-- Adjusted font size -->
+      <h1 class="text-3xl sm:text-4xl md:text-7xl font-heading font-extrabold text-white mb-6 leading-tight drop-shadow-lg">Professional <br><span class="text-primary">Chauffeurs</span></h1>
+      <p class="text-base md:text-xl text-slate-200 mb-8 md:mb-10 max-w-2xl font-light border-l-4 border-primary pl-6">Sit back and relax with our verified, experienced chauffeurs handling the traffic for you.</p>
+      <button onclick="openModal('Driver Service', 'Driver Hiring')" class="bg-primary hover:bg-yellow-400 text-secondary px-8 py-4 rounded-full font-bold text-lg transition shadow-glow w-fit">Hire a Driver</button>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Core Services -->
+<section id="services" class="py-24 bg-light">
+  <div class="container mx-auto px-6">
+    <div class="flex flex-col items-center text-center mb-16 fade-in-section">
+      <span class="text-secondary font-bold tracking-wider uppercase text-sm mb-2">What We Offer</span>
+      <h2 class="text-3xl md:text-5xl font-heading font-bold text-secondary mb-6">Our Services</h2>
+      <div class="w-24 h-1.5 bg-primary rounded-full"></div>
     </div>
 
-    <!-- Grid Layout -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-      <!-- Card 1: Chauffeurs -->
-      <div class="bg-white rounded-xl shadow-lg p-8 border-b-4 border-brand-yellow hover:-translate-y-2 transition-transform duration-300 group">
-        <div class="w-16 h-16 bg-brand-blue/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors duration-300">
-          <i class="fa-solid fa-user-tie text-3xl text-brand-blue group-hover:text-brand-yellow transition-colors"></i>
+      <!-- Service 1 -->
+      <div class="bg-white p-10 rounded-3xl shadow-soft hover:shadow-2xl transition duration-500 hover:-translate-y-2 group border border-slate-100 fade-in-section">
+        <div class="w-20 h-20 bg-yellow-50 text-secondary rounded-2xl flex items-center justify-center mb-8 text-3xl group-hover:bg-primary group-hover:text-secondary transition-colors duration-300">
+          <i class="fas fa-car-side"></i>
         </div>
-        <h3 class="text-xl font-bold text-brand-blue mb-3">Professional Chauffeurs</h3>
-        <p class="text-gray-600 leading-relaxed">
-          Experienced, vetted, and courteous drivers ready to take the wheel so you can relax.
-        </p>
+        <h3 class="text-2xl font-heading font-bold mb-4 text-secondary">Chauffeur Driven</h3>
+        <p class="text-slate-500 leading-relaxed">Luxury cars with professional drivers for business meetings, airport transfers, or leisure trips.</p>
       </div>
-
-      <!-- Card 2: Rental with Driver -->
-      <div class="bg-white rounded-xl shadow-lg p-8 border-b-4 border-brand-yellow hover:-translate-y-2 transition-transform duration-300 group">
-        <div class="w-16 h-16 bg-brand-blue/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors duration-300">
-          <i class="fa-solid fa-car text-3xl text-brand-blue group-hover:text-brand-yellow transition-colors"></i>
+      <!-- Service 2 -->
+      <div class="bg-white p-10 rounded-3xl shadow-soft hover:shadow-2xl transition duration-500 hover:-translate-y-2 group border border-slate-100 fade-in-section" style="transition-delay: 0.1s;">
+        <div class="w-20 h-20 bg-yellow-50 text-secondary rounded-2xl flex items-center justify-center mb-8 text-3xl group-hover:bg-primary group-hover:text-secondary transition-colors duration-300">
+          <i class="fas fa-key"></i>
         </div>
-        <h3 class="text-xl font-bold text-brand-blue mb-3">Car Rental with Driver</h3>
-        <p class="text-gray-600 leading-relaxed">
-          Complete travel packages combining luxury vehicles with expert navigation.
-        </p>
+        <h3 class="text-2xl font-heading font-bold mb-4 text-secondary">Self-Drive</h3>
+        <p class="text-slate-500 leading-relaxed">Well-maintained fleet available for daily, weekly, or monthly rentals. Drive your way.</p>
       </div>
-
-      <!-- Card 3: Self Drive -->
-      <div class="bg-white rounded-xl shadow-lg p-8 border-b-4 border-brand-yellow hover:-translate-y-2 transition-transform duration-300 group">
-        <div class="w-16 h-16 bg-brand-blue/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors duration-300">
-          <i class="fa-solid fa-key text-3xl text-brand-blue group-hover:text-brand-yellow transition-colors"></i>
+      <!-- Service 3 -->
+      <div class="bg-white p-10 rounded-3xl shadow-soft hover:shadow-2xl transition duration-500 hover:-translate-y-2 group border border-slate-100 fade-in-section" style="transition-delay: 0.2s;">
+        <div class="w-20 h-20 bg-yellow-50 text-secondary rounded-2xl flex items-center justify-center mb-8 text-3xl group-hover:bg-primary group-hover:text-secondary transition-colors duration-300">
+          <i class="fas fa-user-tie"></i>
         </div>
-        <h3 class="text-xl font-bold text-brand-blue mb-3">Self Drive Car Rental</h3>
-        <p class="text-gray-600 leading-relaxed">
-          Freedom to explore. Choose from our fleet of hatchbacks and sedans for your own adventure.
-        </p>
+        <h3 class="text-2xl font-heading font-bold mb-4 text-secondary">Driver Hiring</h3>
+        <p class="text-slate-500 leading-relaxed">Have your own car? Hire our verified experts on an hourly basis for a stress-free commute.</p>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ==========================================
-     CALL TO ACTION (DARK THEME)
-=========================================== -->
-<section class="py-20 bg-brand-blue relative overflow-hidden">
-  <!-- Decorative bg circle -->
-  <div class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+<!-- 4. Chauffeur Fleet -->
+<section id="chauffeur" class="py-24 bg-white relative">
+  <div class="absolute top-0 right-0 w-1/3 h-full bg-slate-50 -z-10 rounded-l-[5rem]"></div>
+  <div class="container mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-in-section">
+      <div>
+        <h2 class="text-3xl md:text-5xl font-heading font-bold text-secondary mb-4">Chauffeur Fleet</h2>
+        <p class="text-lg text-slate-500">Travel in comfort and style with our premium selection.</p>
+      </div>
+      <div class="hidden md:block">
+        <div class="w-32 h-1.5 bg-secondary rounded-full"></div>
+      </div>
+    </div>
 
-  <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
-      Ready to Book Your Ride?
-    </h2>
-    <p class="text-gray-300 text-lg mb-10">
-      Need a ride or have a query regarding our upcoming fleet?
-      Chat with us directly to get notified when we launch.
-    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
+      <!-- Car 1 -->
+      <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 group fade-in-section">
+        <div class="h-64 overflow-hidden relative">
+          <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-secondary font-bold px-3 py-1 rounded-lg text-xs z-10 shadow-sm">MOST POPULAR</div>
+          <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800" alt="Sedan" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent"></div>
+        </div>
+        <div class="p-8">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-2xl font-heading font-bold text-secondary">Premium Sedan</h3>
+            <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">AC</span>
+          </div>
+          <div class="flex items-center gap-6 text-sm text-slate-500 mb-6">
+            <span class="flex items-center gap-2"><i class="fas fa-users text-primary"></i> 4 Seats</span>
+            <span class="flex items-center gap-2"><i class="fas fa-suitcase text-primary"></i> 2 Bags</span>
+          </div>
+          <button onclick="openModal('Premium Sedan', 'Chauffeur')" class="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-primary hover:text-secondary transition shadow-lg">Book Now</button>
+        </div>
+      </div>
+      <!-- Car 2 -->
+      <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 group fade-in-section" style="transition-delay: 0.1s;">
+        <div class="h-64 overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800" alt="SUV" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent"></div>
+        </div>
+        <div class="p-8">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-2xl font-heading font-bold text-secondary">Luxury SUV</h3>
+            <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">AC</span>
+          </div>
+          <div class="flex items-center gap-6 text-sm text-slate-500 mb-6">
+            <span class="flex items-center gap-2"><i class="fas fa-users text-primary"></i> 6 Seats</span>
+            <span class="flex items-center gap-2"><i class="fas fa-suitcase text-primary"></i> 4 Bags</span>
+          </div>
+          <button onclick="openModal('Luxury SUV', 'Chauffeur')" class="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-primary hover:text-secondary transition shadow-lg">Book Now</button>
+        </div>
+      </div>
+      <!-- Car 3 -->
+      <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 group fade-in-section" style="transition-delay: 0.2s;">
+        <div class="h-64 overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800" alt="Mini Van" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent"></div>
+        </div>
+        <div class="p-8">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-2xl font-heading font-bold text-secondary">Innova Crysta</h3>
+            <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">AC</span>
+          </div>
+          <div class="flex items-center gap-6 text-sm text-slate-500 mb-6">
+            <span class="flex items-center gap-2"><i class="fas fa-users text-primary"></i> 7 Seats</span>
+            <span class="flex items-center gap-2"><i class="fas fa-suitcase text-primary"></i> 3 Bags</span>
+          </div>
+          <button onclick="openModal('Innova Crysta', 'Chauffeur')" class="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-primary hover:text-secondary transition shadow-lg">Book Now</button>
+        </div>
+      </div>
+    </div>
 
-    <a href="https://api.whatsapp.com/send/?phone=+919073912097&text=Hello.%0D%0AI+have+a+querry+about+your+service.&type=phone_number" target="_blank" class="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold py-4 px-10 rounded-full transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl group">
-      <i class="fa-brands fa-whatsapp text-2xl group-hover:rotate-12 transition-transform"></i>
-      <span class="text-lg">Chat on WhatsApp</span>
-    </a>
-    <p class="mt-4 text-sm text-gray-400">Click to start a conversation</p>
+    <!-- View All Link -->
+    <div class="text-center fade-in-section">
+      <a href="#" class="inline-flex items-center gap-2 text-secondary font-bold hover:text-primary transition group text-lg">
+        View All Chauffeur Cars <i class="fas fa-arrow-right group-hover:translate-x-1 transition"></i>
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- ==========================================
-     FOOTER
-=========================================== -->
-<footer class="bg-gray-900 text-white py-10 border-t border-gray-800">
-  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+<!-- 5. Self-Drive Fleet -->
+<section id="self-drive" class="py-24 bg-slate-50">
+  <div class="container mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-in-section">
+      <div>
+        <h2 class="text-3xl md:text-5xl font-heading font-bold text-secondary mb-4">Self-Drive Fleet</h2>
+        <p class="text-lg text-slate-500">Your journey, your rules. Pick your machine.</p>
+      </div>
+      <div class="hidden md:block">
+        <div class="w-32 h-1.5 bg-primary rounded-full"></div>
+      </div>
+    </div>
 
-    <!-- Copyright -->
-    <div class="text-gray-400 text-sm">
-      &copy; <span id="year"></span> A R Travels. All rights reserved.
-    </div>
-    <div class="text-gray-400 text-sm">
-      <span id="year"></span> Build with &#10084; by <a href="https://meghive.com" target="_blank"><u>meg<b>hive</b></u></a>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+      <!-- Car 1 -->
+      <div class="bg-white rounded-3xl p-6 hover:shadow-2xl transition duration-300 relative border border-slate-100 group fade-in-section">
+        <div class="absolute top-6 right-6 bg-slate-100 text-slate-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Automatic</div>
+        <div class="h-48 flex items-center justify-center mb-4">
+          <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800" alt="Hatchback" class="max-h-full object-contain group-hover:scale-110 transition duration-500">
+        </div>
+        <h3 class="text-xl font-heading font-bold text-secondary mb-1">Swift Dzire</h3>
+        <p class="text-sm text-slate-400 mb-6 flex items-center gap-2">Petrol <span class="w-1 h-1 bg-slate-300 rounded-full"></span> 5 Seater</p>
+        <button onclick="openModal('Swift Dzire', 'Self Drive')" class="w-full border-2 border-primary text-primary hover:text-secondary hover:bg-primary py-3 rounded-xl font-bold transition">Book Now</button>
+      </div>
+      <!-- Car 2 -->
+      <div class="bg-white rounded-3xl p-6 hover:shadow-2xl transition duration-300 relative border border-slate-100 group fade-in-section" style="transition-delay: 0.1s;">
+        <div class="absolute top-6 right-6 bg-slate-100 text-slate-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Manual</div>
+        <div class="h-48 flex items-center justify-center mb-4">
+          <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=800" alt="Compact SUV" class="max-h-full object-contain group-hover:scale-110 transition duration-500">
+        </div>
+        <h3 class="text-xl font-heading font-bold text-secondary mb-1">Hyundai Creta</h3>
+        <p class="text-sm text-slate-400 mb-6 flex items-center gap-2">Diesel <span class="w-1 h-1 bg-slate-300 rounded-full"></span> 5 Seater</p>
+        <button onclick="openModal('Hyundai Creta', 'Self Drive')" class="w-full border-2 border-primary text-primary hover:text-secondary hover:bg-primary py-3 rounded-xl font-bold transition">Book Now</button>
+      </div>
+      <!-- Car 3 -->
+      <div class="bg-white rounded-3xl p-6 hover:shadow-2xl transition duration-300 relative border border-slate-100 group fade-in-section" style="transition-delay: 0.2s;">
+        <div class="absolute top-6 right-6 bg-slate-100 text-slate-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Automatic</div>
+        <div class="h-48 flex items-center justify-center mb-4">
+          <img src="https://images.unsplash.com/photo-1503376763036-066120622c74?auto=format&fit=crop&q=80&w=800" alt="Luxury" class="max-h-full object-contain group-hover:scale-110 transition duration-500">
+        </div>
+        <h3 class="text-xl font-heading font-bold text-secondary mb-1">Mahindra Thar</h3>
+        <p class="text-sm text-slate-400 mb-6 flex items-center gap-2">Diesel <span class="w-1 h-1 bg-slate-300 rounded-full"></span> 4 Seater</p>
+        <button onclick="openModal('Mahindra Thar', 'Self Drive')" class="w-full border-2 border-primary text-primary hover:text-secondary hover:bg-primary py-3 rounded-xl font-bold transition">Book Now</button>
+      </div>
     </div>
 
-    <!-- Social Links -->
-    <div class="flex gap-6">
-      <a href="#" class="text-gray-400 hover:text-brand-yellow transition-colors text-xl">
-        <i class="fa-brands fa-facebook-f"></i>
-      </a>
-      <a href="#" class="text-gray-400 hover:text-brand-yellow transition-colors text-xl">
-        <i class="fa-brands fa-instagram"></i>
-      </a>
-      <a href="#" class="text-gray-400 hover:text-brand-yellow transition-colors text-xl">
-        <i class="fa-brands fa-linkedin-in"></i>
+    <!-- View All Link -->
+    <div class="text-center fade-in-section">
+      <a href="#" class="inline-flex items-center gap-2 text-secondary font-bold hover:text-primary transition group text-lg">
+        View All Self-Drive Cars <i class="fas fa-arrow-right group-hover:translate-x-1 transition"></i>
       </a>
     </div>
+  </div>
+</section>
+
+<!-- 6. Driver Hiring -->
+<section class="bg-secondary text-white overflow-hidden relative">
+  <div class="flex flex-col md:flex-row min-h-[500px]">
+    <div class="w-full md:w-1/2 relative h-80 md:h-auto fade-in-section">
+      <img src="https://images.unsplash.com/photo-1551829142-d9b8cf2c918a?q=80&w=2070&auto=format&fit=crop" alt="Driver" class="w-full h-full object-cover grayscale opacity-60 hover:opacity-100 transition duration-700">
+      <div class="absolute inset-0 bg-gradient-to-r from-secondary to-transparent"></div>
+    </div>
+    <div class="w-full md:w-1/2 flex flex-col justify-center p-10 md:p-24 relative z-10 fade-in-section">
+      <div class="w-16 h-1 bg-primary mb-6"></div>
+      <h2 class="text-3xl md:text-5xl font-heading font-bold mb-6 leading-tight">Need a Professional <br><span class="text-primary">Chauffeur?</span></h2>
+      <p class="mb-8 text-slate-300 text-lg leading-relaxed">Don't want to drive in traffic? Hire our verified, uniformed, and professional chauffeurs to drive your car. Available on an hourly and daily basis.</p>
+      <div class="space-y-4 mb-10">
+        <div class="flex items-center"><i class="fas fa-shield-alt text-primary text-xl mr-4"></i> <span class="font-medium">Background Verified & Police Clearance</span></div>
+        <div class="flex items-center"><i class="fas fa-user-tie text-primary text-xl mr-4"></i> <span class="font-medium">Uniformed & Punctual Staff</span></div>
+        <div class="flex items-center"><i class="fas fa-map-marked-alt text-primary text-xl mr-4"></i> <span class="font-medium">Expert Navigation & Safety Trained</span></div>
+      </div>
+      <button onclick="openModal('Personal Driver', 'Driver Hiring')" class="bg-primary text-secondary px-10 py-4 rounded-full w-fit font-bold shadow-glow hover:scale-105 transition hover:bg-white">Hire a Driver</button>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Why Us -->
+<section id="why-us" class="py-24 bg-white">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-20 fade-in-section">
+      <h2 class="text-3xl md:text-5xl font-heading font-bold text-secondary mb-4">Why Choose Us?</h2>
+      <div class="w-24 h-1.5 bg-primary mx-auto rounded-full"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Feature 1 -->
+      <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 text-center hover:bg-white hover:shadow-xl transition duration-300 fade-in-section">
+        <div class="w-16 h-16 mx-auto bg-blue-50 text-secondary rounded-2xl flex items-center justify-center text-3xl mb-6">
+          <i class="fas fa-headset"></i>
+        </div>
+        <h3 class="font-heading font-bold text-xl mb-3 text-secondary">24/7 Support</h3>
+        <p class="text-sm text-slate-500">We are always here to help you, anytime, anywhere.</p>
+      </div>
+      <!-- Feature 2 -->
+      <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 text-center hover:bg-white hover:shadow-xl transition duration-300 fade-in-section" style="transition-delay: 0.1s;">
+        <div class="w-16 h-16 mx-auto bg-green-50 text-secondary rounded-2xl flex items-center justify-center text-3xl mb-6">
+          <i class="fas fa-tools"></i>
+        </div>
+        <h3 class="font-heading font-bold text-xl mb-3 text-secondary">Well Maintained</h3>
+        <p class="text-sm text-slate-500">Every car undergoes a 40-point quality check.</p>
+      </div>
+      <!-- Feature 3 -->
+      <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 text-center hover:bg-white hover:shadow-xl transition duration-300 fade-in-section" style="transition-delay: 0.2s;">
+        <div class="w-16 h-16 mx-auto bg-purple-50 text-secondary rounded-2xl flex items-center justify-center text-3xl mb-6">
+          <i class="fas fa-wallet"></i>
+        </div>
+        <h3 class="font-heading font-bold text-xl mb-3 text-secondary">Transparent Pricing</h3>
+        <p class="text-sm text-slate-500">No hidden charges. What you see is what you pay.</p>
+      </div>
+      <!-- Feature 4 -->
+      <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 text-center hover:bg-white hover:shadow-xl transition duration-300 fade-in-section" style="transition-delay: 0.3s;">
+        <div class="w-16 h-16 mx-auto bg-orange-50 text-secondary rounded-2xl flex items-center justify-center text-3xl mb-6">
+          <i class="fas fa-user-shield"></i>
+        </div>
+        <h3 class="font-heading font-bold text-xl mb-3 text-secondary">Verified Staff</h3>
+        <p class="text-sm text-slate-500">Police verified drivers for your safety.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Vision (Parallax) -->
+<section class="parallax py-40 relative flex items-center justify-center text-center" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop');">
+  <div class="absolute inset-0 bg-secondary/80 backdrop-blur-sm"></div>
+  <div class="relative z-10 container px-6 fade-in-section">
+    <i class="fas fa-quote-left text-primary text-5xl mb-6 opacity-80"></i>
+    <h2 class="text-3xl md:text-6xl font-heading font-bold text-white mb-8 leading-tight tracking-tight">"Redefining Mobility with <br> <span class="text-primary">Trust & Luxury</span>."</h2>
+    <p class="text-slate-300 text-xl font-light tracking-wide">Our vision is to make every journey memorable.</p>
+  </div>
+</section>
+
+<!-- 9. Booking Flow -->
+<section class="py-24 bg-light">
+  <div class="container mx-auto px-6">
+    <h2 class="text-3xl md:text-4xl font-heading font-bold text-secondary text-center mb-20 fade-in-section">How It Works</h2>
+    <div class="flex flex-col md:flex-row justify-between items-center relative max-w-5xl mx-auto">
+      <!-- Connector Line -->
+      <div class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-slate-200 -z-10"></div>
+
+      <!-- Step 1 -->
+      <div class="flex flex-col items-center bg-light p-4 z-10 fade-in-section">
+        <div class="w-24 h-24 rounded-3xl bg-white border border-slate-100 text-secondary flex items-center justify-center text-3xl font-bold mb-6 shadow-soft transform hover:scale-110 transition">1</div>
+        <h4 class="font-heading font-bold text-xl mb-2">Choose Service</h4>
+        <p class="text-sm text-slate-500 font-medium">Select Car or Driver</p>
+      </div>
+      <!-- Step 2 -->
+      <div class="flex flex-col items-center bg-light p-4 z-10 fade-in-section" style="transition-delay: 0.1s;">
+        <div class="w-24 h-24 rounded-3xl bg-white border border-slate-100 text-secondary flex items-center justify-center text-3xl font-bold mb-6 shadow-soft transform hover:scale-110 transition">2</div>
+        <h4 class="font-heading font-bold text-xl mb-2">Enter Details</h4>
+        <p class="text-sm text-slate-500 font-medium">Name, Date & Phone</p>
+      </div>
+      <!-- Step 3 -->
+      <div class="flex flex-col items-center bg-light p-4 z-10 fade-in-section" style="transition-delay: 0.2s;">
+        <div class="w-24 h-24 rounded-3xl bg-primary text-secondary flex items-center justify-center text-3xl font-bold mb-6 shadow-glow transform hover:scale-110 transition">3</div>
+        <h4 class="font-heading font-bold text-xl mb-2 text-secondary">Connect WhatsApp</h4>
+        <p class="text-sm text-slate-500 font-medium">Instant Confirmation</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. Testimonials -->
+<section class="py-24 bg-white">
+  <div class="container mx-auto px-6 max-w-4xl fade-in-section">
+    <h2 class="text-3xl md:text-4xl font-heading font-bold text-secondary text-center mb-12">Client Stories</h2>
+    <div class="bg-gradient-to-br from-slate-50 to-white p-10 md:p-14 rounded-[3rem] shadow-soft border border-slate-100 text-center relative">
+      <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-primary text-secondary w-12 h-12 flex items-center justify-center rounded-full text-2xl shadow-lg">
+        <i class="fas fa-quote-right"></i>
+      </div>
+
+      <p class="text-lg md:text-2xl text-secondary font-light italic mb-8 leading-relaxed">"I hired a driver for my outstation trip to Shimla. The driver was extremely polite and the driving was smooth. Highly recommended service for anyone looking for reliability!"</p>
+
+      <div class="flex flex-col items-center justify-center gap-3">
+        <div class="w-16 h-16 bg-slate-200 rounded-full overflow-hidden border-2 border-white shadow-md">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <h5 class="font-bold text-secondary font-heading text-lg">Rahul Sharma</h5>
+          <p class="text-sm text-primary font-bold uppercase tracking-wider">Business Traveler</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11. FAQ -->
+<section class="py-24 bg-light">
+  <div class="container mx-auto px-6 max-w-3xl fade-in-section">
+    <h2 class="text-3xl md:text-4xl font-heading font-bold text-secondary text-center mb-16">Frequently Asked Questions</h2>
+
+    <div class="space-y-6">
+      <details class="group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 cursor-pointer transition open:shadow-md">
+        <summary class="flex justify-between items-center font-bold text-secondary text-lg list-none select-none">
+          <span>Is fuel included in Self-Drive rentals?</span>
+          <span class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 group-open:bg-primary group-open:text-secondary transition"><i class="fas fa-chevron-down group-open:rotate-180 transition"></i></span>
+        </summary>
+        <p class="text-slate-600 mt-4 leading-relaxed border-t pt-4 border-slate-100">No, fuel is not included. The car is provided with a full tank and must be returned with a full tank to avoid refueling charges.</p>
+      </details>
+
+      <details class="group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 cursor-pointer transition open:shadow-md">
+        <summary class="flex justify-between items-center font-bold text-secondary text-lg list-none select-none">
+          <span>What is the security deposit policy?</span>
+          <span class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 group-open:bg-primary group-open:text-secondary transition"><i class="fas fa-chevron-down group-open:rotate-180 transition"></i></span>
+        </summary>
+        <p class="text-slate-600 mt-4 leading-relaxed border-t pt-4 border-slate-100">A refundable security deposit of ₹5,000 is required for self-drive cars. This amount is returned via UPI or bank transfer within 24 hours of vehicle drop-off after inspection.</p>
+      </details>
+
+      <details class="group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 cursor-pointer transition open:shadow-md">
+        <summary class="flex justify-between items-center font-bold text-secondary text-lg list-none select-none">
+          <span>Do I need a special license?</span>
+          <span class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 group-open:bg-primary group-open:text-secondary transition"><i class="fas fa-chevron-down group-open:rotate-180 transition"></i></span>
+        </summary>
+        <p class="text-slate-600 mt-4 leading-relaxed border-t pt-4 border-slate-100">You need a valid Light Motor Vehicle (LMV) driving license (original) and must be at least 21 years old. Aadhar card is also required for ID proof.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 12. Footer with Animation -->
+<footer class="bg-secondary text-white pt-24">
+  <div class="container mx-auto px-6 pb-12 fade-in-section">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      <!-- Brand -->
+      <div class="space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-secondary font-bold">AR</div>
+          <h3 class="text-2xl font-heading font-bold">A R Travels</h3>
+        </div>
+        <p class="text-slate-400 text-sm leading-relaxed max-w-xs">Premium car rentals and professional driver services committed to safety, punctuality, and comfort.</p>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-secondary transition transform hover:-translate-y-1"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-secondary transition transform hover:-translate-y-1"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-secondary transition transform hover:-translate-y-1"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <!-- Links -->
+      <div>
+        <h4 class="text-lg font-bold mb-6 text-white border-b border-slate-800 pb-2 inline-block">Quick Links</h4>
+        <ul class="space-y-3 text-sm text-slate-400">
+          <li><a href="#services" class="hover:text-primary transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Services</a></li>
+          <li><a href="#chauffeur" class="hover:text-primary transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Fleet</a></li>
+          <li><a href="#why-us" class="hover:text-primary transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> About Us</a></li>
+          <li><a href="#" class="hover:text-primary transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Terms & Conditions</a></li>
+        </ul>
+      </div>
+      <!-- Contact -->
+      <div>
+        <h4 class="text-lg font-bold mb-6 text-white border-b border-slate-800 pb-2 inline-block">Contact Us</h4>
+        <ul class="space-y-4 text-sm text-slate-400">
+          <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt text-primary mt-1"></i> <span>123, Main Street, City Center, <br>New Delhi, India</span></li>
+          <li class="flex items-center gap-3"><i class="fas fa-phone text-primary"></i> <span>+91 98765 43210</span></li>
+          <li class="flex items-center gap-3"><i class="fas fa-envelope text-primary"></i> <span>bookings@artravels.com</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-slate-800 pt-8 text-center text-xs text-slate-600">
+      &copy; 2026 A R Travels. All rights reserved. Designed with <i class="fas fa-heart text-red-500"></i>
+    </div>
+  </div>
+
+  <!-- CSS/SVG Animation Loop (Dark Theme) -->
+  <div class="footer-road-scene">
+    <div class="traffic-light">
+      <div class="light red"></div>
+      <div class="light yellow"></div>
+      <div class="light green"></div>
+    </div>
+
+    <div class="road-line"></div>
+
+    <!-- SVG Car 1 (Sedan - Yellow/Accent) -->
+    <svg class="animated-car car-1" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10,25 L15,15 L35,15 L45,25 L85,25 C88,25 90,27 90,30 L90,35 L5,35 L5,30 C5,27 7,25 10,25 Z" fill="#F7C600"/>
+      <circle cx="20" cy="35" r="5" fill="#1e1b4b"/>
+      <circle cx="75" cy="35" r="5" fill="#1e1b4b"/>
+      <rect x="50" y="17" width="20" height="6" fill="#1e1b4b" opacity="0.5"/>
+    </svg>
+
+    <!-- SVG Car 2 (SUV - Silver for contrast) -->
+    <svg class="animated-car car-2" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5,25 L10,10 L40,10 L50,25 L90,25 C93,25 95,27 95,30 L95,35 L0,35 L0,30 C0,27 2,25 5,25 Z" fill="#CBD5E1"/>
+      <circle cx="20" cy="35" r="5" fill="#000"/>
+      <circle cx="80" cy="35" r="5" fill="#000"/>
+      <rect x="15" y="13" width="20" height="10" fill="#1e1b4b" opacity="0.3"/>
+    </svg>
   </div>
 </footer>
 
-<!-- ==========================================
-     JAVASCRIPT
-=========================================== -->
+<!-- Universal Booking Modal (Glassmorphism) -->
+<!-- Updated for Flexbox Centering -->
+<div id="booking-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+
+  <!-- Modal Content - Removed visible scrollbar -->
+  <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-fade-in-up border border-white/20 max-h-[85vh] flex flex-col">
+    <div class="bg-gradient-to-r from-secondary to-slate-800 p-5 flex justify-between items-center text-white shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded bg-white/10 flex items-center justify-center text-primary"><i class="fas fa-calendar-check"></i></div>
+        <h3 class="font-heading font-bold text-lg">Book Your Ride</h3>
+      </div>
+      <button onclick="closeModal()" class="hover:text-primary transition w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="overflow-y-auto custom-scrollbar p-8">
+      <form id="booking-form" onsubmit="submitToWhatsApp(event)" class="space-y-5">
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Vehicle / Service</label>
+          <div class="relative">
+            <input type="text" id="modal-vehicle" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-secondary font-semibold cursor-not-allowed pl-10" readonly>
+            <i class="fas fa-car absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          </div>
+          <p class="text-xs text-primary mt-1" id="service-hint">Service type selected: <span id="hint-text"></span></p>
+        </div>
+
+        <input type="hidden" id="modal-service-type">
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Your Name</label>
+          <input type="text" id="user-name" required class="w-full border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition" placeholder="John Doe">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Phone Number</label>
+          <div class="relative">
+            <input type="tel" id="user-phone" required pattern="[0-9]{10}" placeholder="9876543210" class="w-full border border-slate-200 rounded-xl px-4 py-3 pl-12 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold border-r pr-2 text-sm">+91</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Travel Date</label>
+          <input type="date" id="user-date" required class="w-full border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition text-slate-600">
+        </div>
+
+        <div class="pt-4 pb-2">
+          <button type="submit" class="w-full bg-primary text-secondary font-bold py-4 rounded-xl hover:shadow-lg hover:shadow-yellow-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+            <i class="fab fa-whatsapp text-xl"></i>
+            <span>Confirm Booking</span>
+          </button>
+        </div>
+        <p class="text-[10px] text-center text-slate-400">Secure booking via WhatsApp • No payment required now</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/919876543210" target="_blank" class="fixed bottom-8 right-8 z-40 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-3xl shadow-glow hover:scale-110 transition duration-300">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- JavaScript Logic -->
 <script>
-  // 1. Dynamic Year for Footer
-  document.getElementById('year').textContent = new Date().getFullYear();
+  // --- 1. Mobile Menu Logic ---
+  const menuBtn = document.getElementById('menu-btn');
+  const closeMenuBtn = document.getElementById('close-menu');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
 
-  // 2. Countdown Timer Logic
-  // Set your specific launch date and time here
-  // Format: "Month Day, Year HH:MM:SS"
-  const targetDateString = "January 31, 2026 00:00:00"; // <--- CHANGE THIS DATE
-  const targetTime = new Date(targetDateString).getTime();
-
-  const countdownElement = document.getElementById('countdown');
-  let timerInterval;
-
-  function updateTimer() {
-    const now = new Date().getTime();
-    const distance = targetTime - now;
-
-    // If the count down is finished, hide the counter
-    if (distance < 0) {
-      countdownElement.style.display = 'none';
-      if (timerInterval) clearInterval(timerInterval);
-      return;
+  function toggleMenu() {
+    if(mobileMenu.classList.contains('translate-x-full')) {
+      mobileMenu.classList.remove('translate-x-full');
+    } else {
+      mobileMenu.classList.add('translate-x-full');
     }
-
-    // Time calculations
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    // HTML Structure for each time unit
-    const createTimeBox = (value, label) => `
-                <div class="timer-box flex flex-col items-center justify-center p-4 rounded-lg shadow-lg backdrop-blur-md">
-                    <span class="text-3xl md:text-4xl font-bold text-white font-mono">${value < 10 ? '0' + value : value}</span>
-                    <span class="text-brand-yellow text-xs md:text-sm uppercase tracking-wider mt-1">${label}</span>
-                </div>
-            `;
-
-    // Render
-    countdownElement.innerHTML =
-      createTimeBox(days, 'Days') +
-      createTimeBox(hours, 'Hours') +
-      createTimeBox(minutes, 'Minutes') +
-      createTimeBox(seconds, 'Seconds');
   }
 
-  // Run immediately then every second
-  updateTimer();
-  timerInterval = setInterval(updateTimer, 1000);
+  menuBtn.addEventListener('click', toggleMenu);
+  closeMenuBtn.addEventListener('click', toggleMenu);
+  mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
 
-  // 3. Smooth Fade In Animation (Simple Intersection Observer)
-  document.addEventListener('DOMContentLoaded', () => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0');
-          entry.target.classList.remove('opacity-0', 'translate-y-10');
-        }
-      });
+  // --- 2. Hero Slider Logic ---
+  const slides = document.querySelectorAll('.slide');
+  let currentSlide = 0;
+  let slideInterval;
+
+  function nextSlide() {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+    resetTimer();
+  }
+
+  function prevSlide() {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    resetTimer();
+  }
+
+  function resetTimer() {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(nextSlide, 4000);
+  }
+
+  // Auto-play
+  slideInterval = setInterval(nextSlide, 4000);
+
+  // --- 3. Touch Slide Support ---
+  const heroSection = document.getElementById('hero');
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  heroSection.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, {passive: true});
+
+  heroSection.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, {passive: true});
+
+  function handleSwipe() {
+    const threshold = 50; // min distance for swipe
+    if (touchEndX < touchStartX - threshold) {
+      nextSlide();
+    }
+    if (touchEndX > touchStartX + threshold) {
+      prevSlide();
+    }
+  }
+
+  // --- 4. Navbar Scroll Effect ---
+  window.addEventListener('scroll', () => {
+    const navbar = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+      navbar.classList.add('glass');
+      navbar.classList.remove('bg-transparent');
+    } else {
+      // Keep glass effect but maybe clearer if needed, sticking to glass always for consistency
+    }
+  });
+
+  // --- 5. Scroll Transition Observer ---
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target); // Only animate once
+      }
     });
-    // Add 'opacity-0 translate-y-10 transition-all duration-700' to elements you want to animate if expanding later
+  }, observerOptions);
+
+  document.querySelectorAll('.fade-in-section').forEach(section => {
+    observer.observe(section);
   });
 
-  // 4. Loader Logic
-  window.addEventListener('load', () => {
-    // Keep loader for at least 2 seconds so animation is visible
-    setTimeout(() => {
-      const loader = document.getElementById('loader-wrapper');
-      loader.classList.add('loader-hidden');
+  // --- 6. Modal Logic ---
+  const modal = document.getElementById('booking-modal');
+  const vehicleInput = document.getElementById('modal-vehicle');
+  const serviceInput = document.getElementById('modal-service-type');
+  const hintText = document.getElementById('hint-text');
 
-      // Remove from DOM after transition completes to clean up
-      loader.addEventListener('transitionend', () => {
-        loader.remove();
-      });
-    }, 2000);
-  });
+  function openModal(vehicleName, serviceType) {
+    // Add prefix to make it clear in form
+    const prefix = serviceType === 'Self Drive' ? '[SELF-DRIVE]' : '[DRIVER REQUEST]';
+    vehicleInput.value = `${prefix} ${vehicleName}`;
+
+    serviceInput.value = serviceType;
+    hintText.innerText = serviceType; // Update hint text
+    modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+  }
+
+  // --- 7. WhatsApp Form Submission Logic ---
+  function submitToWhatsApp(e) {
+    e.preventDefault();
+
+    // Get Values
+    const vehicle = document.getElementById('modal-vehicle').value;
+    const service = document.getElementById('modal-service-type').value;
+    const name = document.getElementById('user-name').value;
+    const phone = document.getElementById('user-phone').value;
+    const date = document.getElementById('user-date').value;
+
+    // Company Phone Number
+    const companyPhone = "919876543210";
+
+    // Construct Message
+    const message =
+      `*New Booking Request - A R Travels*
+---------------------------
+*Service Type:* ${service}
+*Vehicle Selection:* ${vehicle}
+*Customer Name:* ${name}
+*Phone:* ${phone}
+*Travel Date:* ${date}
+---------------------------
+Please confirm availability.`;
+
+    // Encode URL
+    const url = `https://wa.me/${companyPhone}?text=${encodeURIComponent(message)}`;
+
+    // Redirect
+    window.open(url, '_blank');
+    closeModal();
+  }
 </script>
 </body>
 </html>
