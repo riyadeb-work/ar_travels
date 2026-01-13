@@ -452,7 +452,7 @@
   </div>
 </section>
 
-<!-- 5. Self-Drive Fleet -->
+<!-- 5. Self-Drive Fleet (Updated to match Chauffeur Style) -->
 <section id="self-drive" class="py-24 bg-slate-50">
   <div class="container mx-auto px-6">
     <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-in-section">
@@ -467,34 +467,69 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
       <!-- Car 1 -->
-      <div class="bg-white rounded-3xl p-6 hover:shadow-2xl transition duration-300 relative border border-slate-100 group fade-in-section">
-        <div class="absolute top-6 right-6 bg-slate-100 text-slate-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Automatic</div>
-        <div class="h-48 flex items-center justify-center mb-4">
-          <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800" alt="Hatchback" class="max-h-full object-contain group-hover:scale-110 transition duration-500">
+      <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 group fade-in-section">
+        <div class="h-64 overflow-hidden relative">
+          <!-- Automatic/Manual Tag -->
+          <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-slate-700 font-bold px-3 py-1 rounded-lg text-xs z-10 shadow-sm uppercase tracking-wider">Automatic</div>
+
+          <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800" alt="Hatchback" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent"></div>
         </div>
-        <h3 class="text-xl font-heading font-bold text-secondary mb-1">Swift Dzire</h3>
-        <p class="text-sm text-slate-400 mb-6 flex items-center gap-2">Petrol <span class="w-1 h-1 bg-slate-300 rounded-full"></span> 5 Seater</p>
-        <button onclick="openModal('Swift Dzire', 'Self Drive')" class="w-full border-2 border-primary text-primary hover:text-secondary hover:bg-primary py-3 rounded-xl font-bold transition">Book Now</button>
+        <div class="p-8">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-2xl font-heading font-bold text-secondary">Swift Dzire</h3>
+            <span class="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-full">Petrol</span>
+          </div>
+          <div class="flex items-center gap-6 text-sm text-slate-500 mb-6">
+            <span class="flex items-center gap-2"><i class="fas fa-users text-primary"></i> 5 Seats</span>
+            <span class="flex items-center gap-2"><i class="fas fa-tachometer-alt text-primary"></i> Auto</span>
+          </div>
+          <button onclick="openModal('Swift Dzire', 'Self Drive')" class="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-primary hover:text-secondary transition shadow-lg">Book Now</button>
+        </div>
       </div>
+
       <!-- Car 2 -->
-      <div class="bg-white rounded-3xl p-6 hover:shadow-2xl transition duration-300 relative border border-slate-100 group fade-in-section" style="transition-delay: 0.1s;">
-        <div class="absolute top-6 right-6 bg-slate-100 text-slate-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Manual</div>
-        <div class="h-48 flex items-center justify-center mb-4">
-          <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=800" alt="Compact SUV" class="max-h-full object-contain group-hover:scale-110 transition duration-500">
+      <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 group fade-in-section" style="transition-delay: 0.1s;">
+        <div class="h-64 overflow-hidden relative">
+          <!-- Automatic/Manual Tag -->
+          <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-slate-700 font-bold px-3 py-1 rounded-lg text-xs z-10 shadow-sm uppercase tracking-wider">Manual</div>
+
+          <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800" alt="Compact SUV" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent"></div>
         </div>
-        <h3 class="text-xl font-heading font-bold text-secondary mb-1">Hyundai Creta</h3>
-        <p class="text-sm text-slate-400 mb-6 flex items-center gap-2">Diesel <span class="w-1 h-1 bg-slate-300 rounded-full"></span> 5 Seater</p>
-        <button onclick="openModal('Hyundai Creta', 'Self Drive')" class="w-full border-2 border-primary text-primary hover:text-secondary hover:bg-primary py-3 rounded-xl font-bold transition">Book Now</button>
+        <div class="p-8">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-2xl font-heading font-bold text-secondary">Hyundai Creta</h3>
+            <span class="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-full">Diesel</span>
+          </div>
+          <div class="flex items-center gap-6 text-sm text-slate-500 mb-6">
+            <span class="flex items-center gap-2"><i class="fas fa-users text-primary"></i> 5 Seats</span>
+            <span class="flex items-center gap-2"><i class="fas fa-tachometer-alt text-primary"></i> Manual</span>
+          </div>
+          <button onclick="openModal('Hyundai Creta', 'Self Drive')" class="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-primary hover:text-secondary transition shadow-lg">Book Now</button>
+        </div>
       </div>
+
       <!-- Car 3 -->
-      <div class="bg-white rounded-3xl p-6 hover:shadow-2xl transition duration-300 relative border border-slate-100 group fade-in-section" style="transition-delay: 0.2s;">
-        <div class="absolute top-6 right-6 bg-slate-100 text-slate-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Automatic</div>
-        <div class="h-48 flex items-center justify-center mb-4">
-          <img src="https://images.unsplash.com/photo-1503376763036-066120622c74?auto=format&fit=crop&q=80&w=800" alt="Luxury" class="max-h-full object-contain group-hover:scale-110 transition duration-500">
+      <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 group fade-in-section" style="transition-delay: 0.2s;">
+        <div class="h-64 overflow-hidden relative">
+          <!-- Automatic/Manual Tag -->
+          <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-slate-700 font-bold px-3 py-1 rounded-lg text-xs z-10 shadow-sm uppercase tracking-wider">Automatic</div>
+
+          <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800" alt="Luxury" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent"></div>
         </div>
-        <h3 class="text-xl font-heading font-bold text-secondary mb-1">Mahindra Thar</h3>
-        <p class="text-sm text-slate-400 mb-6 flex items-center gap-2">Diesel <span class="w-1 h-1 bg-slate-300 rounded-full"></span> 4 Seater</p>
-        <button onclick="openModal('Mahindra Thar', 'Self Drive')" class="w-full border-2 border-primary text-primary hover:text-secondary hover:bg-primary py-3 rounded-xl font-bold transition">Book Now</button>
+        <div class="p-8">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-2xl font-heading font-bold text-secondary">Mahindra Thar</h3>
+            <span class="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-full">Diesel</span>
+          </div>
+          <div class="flex items-center gap-6 text-sm text-slate-500 mb-6">
+            <span class="flex items-center gap-2"><i class="fas fa-users text-primary"></i> 4 Seats</span>
+            <span class="flex items-center gap-2"><i class="fas fa-tachometer-alt text-primary"></i> Auto</span>
+          </div>
+          <button onclick="openModal('Mahindra Thar', 'Self Drive')" class="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-primary hover:text-secondary transition shadow-lg">Book Now</button>
+        </div>
       </div>
     </div>
 
