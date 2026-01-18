@@ -90,87 +90,77 @@
       background-size: cover;
     }
 
-    /* Footer Animation (Updated Colors) */
-    .footer-road-scene {
+    /* --- IMPROVED FOOTER ANIMATION --- */
+    .animation-container {
+      width: 100%;
+      height: 200px;
       position: relative;
-      height: 140px;
-      width: 100%;
-      background-color: #00273D;
-      overflow: hidden;
-      border-top: 4px solid #F7C600;
-    }
-
-    .road-line {
-      position: absolute;
-      bottom: 30px;
-      width: 100%;
-      height: 4px;
-      background-image: linear-gradient(90deg, #64748B 50%, transparent 50%);
-      background-size: 120px 100%;
-      animation: moveRoad 1.5s linear infinite;
-    }
-
-    @keyframes moveRoad {
-      0% { background-position: 0 0; }
-      100% { background-position: -120px 0; }
-    }
-
-    .animated-car {
-      position: absolute;
-      bottom: 35px;
-      width: 120px;
-      height: 45px;
+      /* Move footer up to overlap with the bottom of the animation */
+      margin-bottom: -35px;
+      /* Transparent background so body light bg shows at top, footer dark bg shows at bottom */
+      background: transparent;
       z-index: 10;
-      filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+      pointer-events: none; /* Allow clicks to pass through */
     }
 
-    .car-1 { left: -150px; animation: driveCar 7s linear infinite; }
-    .car-2 { left: -150px; animation: driveCar 10s linear infinite 3.5s; }
-
-    @keyframes driveCar {
-      0% { transform: translateX(-200px); }
-      100% { transform: translateX(100vw); }
+    .car {
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
     }
 
-    /* Traffic Light */
-    .traffic-light {
+    .car-left-to-right {
+      animation-name: moveLeftToRight;
+    }
+
+    .car-right-to-left {
+      animation-name: moveRightToLeft;
+    }
+
+    @keyframes moveLeftToRight {
+      from { transform: translateX(-150px); }
+      to { transform: translateX(calc(100vw + 150px)); }
+    }
+
+    @keyframes moveRightToLeft {
+      from { transform: translateX(calc(100vw + 150px)); }
+      to { transform: translateX(-150px); }
+    }
+
+    /* --- INFOGRAPHIC STYLES --- */
+    .step-connector {
       position: absolute;
-      right: 8%;
-      bottom: 90px;
-      width: 40px;
-      height: 100px;
-      background: #001f30;
-      border-radius: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-around;
-      padding: 8px 0;
-      border: 2px solid #334155;
-      z-index: 5;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      top: 35%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #e2e8f0;
+      z-index: 0;
+      display: none;
     }
-    .light { width: 20px; height: 20px; border-radius: 50%; opacity: 0.2; transition: opacity 0.3s; }
-    .red { background-color: #EF4444; animation: lightRed 8s infinite; box-shadow: 0 0 15px #EF4444; }
-    .yellow { background-color: #F7C600; animation: lightYellow 8s infinite; box-shadow: 0 0 15px #F7C600; }
-    .green { background-color: #10B981; animation: lightGreen 8s infinite; box-shadow: 0 0 15px #10B981; }
-
-    @keyframes lightRed { 0%, 40% { opacity: 1; } 41%, 100% { opacity: 0.2; } }
-    @keyframes lightYellow { 0%, 40% { opacity: 0.2; } 41%, 55% { opacity: 1; } 56%, 100% { opacity: 0.2; } }
-    @keyframes lightGreen { 0%, 55% { opacity: 0.2; } 56%, 95% { opacity: 1; } 96%, 100% { opacity: 0.2; } }
-
-    /* Floating Button Pulse */
-    .pulse-animation {
-      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
-      animation: pulse-green 2s infinite;
+    @media (min-width: 768px) {
+      .step-connector { display: block; }
     }
-    @keyframes pulse-green {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-      70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    .step-item:hover .step-icon {
+      background-color: #F7C600;
+      color: #00273D;
+      transform: scale(1.1) rotate(5deg);
+      border-color: #F7C600;
+    }
+    .step-icon {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    /* Animated dashed line flow */
+    .flow-line {
+      stroke-dasharray: 10;
+      animation: dash 30s linear infinite;
+    }
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -1000;
+      }
     }
 
-    /* Modal Animation - Updated for Flexbox Centering */
+    /* Modal Animation */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -234,6 +224,7 @@
       opacity: 1;
       transform: none;
     }
+
   </style>
 </head>
 <body class="text-slate-700 antialiased selection:bg-primary selection:text-secondary">
@@ -241,29 +232,35 @@
 <!-- 1. Header (Glassmorphism) -->
 <header class="fixed w-full top-0 z-50 glass shadow-sm transition-all duration-300" id="navbar">
   <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-    <!-- Logo -->
-    <a href="#" class="flex items-center gap-3 group">
-      <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-secondary font-heading font-bold text-xl shadow-lg transform group-hover:rotate-6 transition duration-300">AR</div>
+    <!-- Logo (More Prominent) -->
+    <a href="#" class="flex items-center gap-5 group">
+      <div class="w-20 h-20 rounded-2xl flex items-center justify-center shadow-xl transform group-hover:rotate-6 transition duration-300">
+        <img src="/themes/custom/artravels_ui/images/logo_main.svg" class="w-full h-full object-contain">
+      </div>
       <div class="flex flex-col">
-        <span class="text-2xl font-heading font-extrabold tracking-tight text-secondary leading-none">A R Travels</span>
-        <span class="text-xs font-medium text-slate-500 tracking-wider uppercase">Premium Mobility</span>
+        <span class="text-4xl font-heading font-extrabold tracking-tight text-secondary leading-none">
+          A R Travels
+        </span>
+        <span class="text-sm font-semibold text-slate-500 tracking-widest uppercase">
+          HIT THE ROAD
+        </span>
       </div>
     </a>
 
     <!-- Desktop Nav -->
     <nav class="hidden md:flex items-center gap-10 font-medium text-slate-600">
-      <a href="#services" class="hover:text-primary transition relative group py-2">Services<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
-      <a href="#chauffeur" class="hover:text-primary transition relative group py-2">Chauffeur<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+      <a href="#chauffeur" class="hover:text-primary transition relative group py-2">Cars<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
       <a href="#self-drive" class="hover:text-primary transition relative group py-2">Self-Drive<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
-      <a href="#why-us" class="hover:text-primary transition relative group py-2">Why Us<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+      <a href="#driver-hiring" class="hover:text-primary transition relative group py-2">Drivers<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
+      <a href="https://api.whatsapp.com/send/?phone=+919073912097&text=Hello.%0D%0AI+have+a+querry+about+your+service.&type=phone_number" target="_blank" class="hover:text-primary transition relative group py-2"><i class="fab fa-whatsapp"></i> Contact<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span></a>
       <button onclick="openModal('General Inquiry', 'Consultation')" class="bg-primary text-secondary px-7 py-2.5 rounded-full font-bold shadow-lg shadow-yellow-500/20 hover:shadow-yellow-500/40 transition transform hover:-translate-y-0.5 hover:scale-105 active:scale-95 flex items-center gap-2">
-        <i class="fas fa-phone-alt text-sm"></i> Call Now
+        Enquiry
       </button>
     </nav>
 
     <!-- Mobile Nav Toggle -->
     <div class="md:hidden flex items-center gap-5">
-      <a href="tel:+919876543210" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary text-xl hover:bg-primary hover:text-white transition"><i class="fas fa-phone"></i></a>
+      <a href="tel:+919073912097" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary text-xl hover:bg-primary hover:text-white transition"><i class="fas fa-phone"></i></a>
       <button id="menu-btn" class="text-2xl text-secondary focus:outline-none">
         <i class="fas fa-bars"></i>
       </button>
@@ -276,12 +273,12 @@
 <div id="mobile-menu" class="fixed inset-0 bg-secondary/55 backdrop-blur-xl z-[60] transform translate-x-full transition-transform duration-500 ease-in-out flex flex-col items-center justify-center gap-10 text-xl text-white">
   <button id="close-menu" class="absolute top-6 right-6 text-3xl text-slate-400 hover:text-primary transition"><i class="fas fa-times"></i></button>
   <div class="flex flex-col gap-6 text-center">
-    <a href="#services" class="hover:text-primary transition mobile-link text-2xl font-light">Services</a>
-    <a href="#chauffeur" class="hover:text-primary transition mobile-link text-2xl font-light">Chauffeur Fleet</a>
+    <a href="#chauffeur" class="hover:text-primary transition mobile-link text-2xl font-light">Cars</a>
     <a href="#self-drive" class="hover:text-primary transition mobile-link text-2xl font-light">Self-Drive</a>
-    <a href="#why-us" class="hover:text-primary transition mobile-link text-2xl font-light">Why Us</a>
+    <a href="#driver-hiring" class="hover:text-primary transition mobile-link text-2xl font-light">Drivers</a>
+    <a href="https://api.whatsapp.com/send/?phone=+919073912097&text=Hello.%0D%0AI+have+a+querry+about+your+service.&type=phone_number" target="_blank" class="hover:text-primary transition mobile-link text-2xl font-light"><i class="fab fa-whatsapp"></i> Contact</a>
   </div>
-  <button onclick="openModal('General Inquiry', 'Consultation')" class="bg-primary text-secondary px-10 py-4 rounded-full font-bold text-lg mt-4 shadow-glow">Book Now</button>
+  <button onclick="openModal('General Inquiry', 'Consultation')" class="bg-primary text-secondary px-10 py-4 rounded-full font-bold text-lg mt-4 shadow-glow">Enquiry</button>
 </div>
 
 <!-- 2. Hero Section -->
@@ -326,7 +323,7 @@
     <div class="container mx-auto h-full flex flex-col justify-center px-6 md:px-24 relative z-10 pt-28 md:pt-32">
       <span class="text-primary font-bold tracking-[0.2em] uppercase mb-4 text-sm md:text-base">Executive Service</span>
       <!-- Adjusted font size -->
-      <h1 class="text-3xl sm:text-4xl md:text-7xl font-heading font-extrabold text-white mb-6 leading-tight drop-shadow-lg">Professional <br><span class="text-primary">Chauffeurs</span></h1>
+      <h1 class="text-3xl sm:text-4xl md:text-7xl font-heading font-extrabold text-white mb-6 leading-tight drop-shadow-lg">Professional <br><span class="text-primary">Drivers</span></h1>
       <p class="text-base md:text-xl text-slate-200 mb-8 md:mb-10 max-w-2xl font-light border-l-4 border-primary pl-6">Sit back and relax with our verified, experienced chauffeurs handling the traffic for you.</p>
       <button onclick="openModal('Driver Service', 'Driver Hiring')" class="bg-primary hover:bg-yellow-400 text-secondary px-8 py-4 rounded-full font-bold text-lg transition shadow-glow w-fit">Hire a Driver</button>
     </div>
@@ -377,7 +374,7 @@
   <div class="container mx-auto px-6">
     <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-in-section">
       <div>
-        <h2 class="text-3xl md:text-5xl font-heading font-bold text-secondary mb-4">Chauffeur Fleet</h2>
+        <h2 class="text-3xl md:text-5xl font-heading font-bold text-secondary mb-4">Car Rental with Driver </h2>
         <p class="text-lg text-slate-500">Travel in comfort and style with our premium selection.</p>
       </div>
       <div class="hidden md:block">
@@ -390,12 +387,12 @@
       <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 group fade-in-section">
         <div class="h-64 overflow-hidden relative">
           <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-secondary font-bold px-3 py-1 rounded-lg text-xs z-10 shadow-sm">MOST POPULAR</div>
-          <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800" alt="Sedan" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <img src="/themes/custom/artravels_ui/images/city.png" alt="Sedan" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
           <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent"></div>
         </div>
         <div class="p-8">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-2xl font-heading font-bold text-secondary">Premium Sedan</h3>
+            <h3 class="text-2xl font-heading font-bold text-secondary">Honda City</h3>
             <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">AC</span>
           </div>
           <div class="flex items-center gap-6 text-sm text-slate-500 mb-6">
@@ -408,16 +405,16 @@
       <!-- Car 2 -->
       <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 group fade-in-section" style="transition-delay: 0.1s;">
         <div class="h-64 overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800" alt="SUV" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <img src="/themes/custom/artravels_ui/images/punch.png" alt="SUV" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
           <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent"></div>
         </div>
         <div class="p-8">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-2xl font-heading font-bold text-secondary">Luxury SUV</h3>
+            <h3 class="text-2xl font-heading font-bold text-secondary">Tata Punch</h3>
             <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">AC</span>
           </div>
           <div class="flex items-center gap-6 text-sm text-slate-500 mb-6">
-            <span class="flex items-center gap-2"><i class="fas fa-users text-primary"></i> 6 Seats</span>
+            <span class="flex items-center gap-2"><i class="fas fa-users text-primary"></i> 4 Seats</span>
             <span class="flex items-center gap-2"><i class="fas fa-suitcase text-primary"></i> 4 Bags</span>
           </div>
           <button onclick="openModal('Luxury SUV', 'Chauffeur')" class="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-primary hover:text-secondary transition shadow-lg">Book Now</button>
@@ -426,7 +423,7 @@
       <!-- Car 3 -->
       <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 group fade-in-section" style="transition-delay: 0.2s;">
         <div class="h-64 overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800" alt="Mini Van" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <img src="/themes/custom/artravels_ui/images/innova.png" alt="Mini Van" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
           <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent"></div>
         </div>
         <div class="p-8">
@@ -457,7 +454,7 @@
   <div class="container mx-auto px-6">
     <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-in-section">
       <div>
-        <h2 class="text-3xl md:text-5xl font-heading font-bold text-secondary mb-4">Self-Drive Fleet</h2>
+        <h2 class="text-3xl md:text-5xl font-heading font-bold text-secondary mb-4">Self-Drive Car Rental</h2>
         <p class="text-lg text-slate-500">Your journey, your rules. Pick your machine.</p>
       </div>
       <div class="hidden md:block">
@@ -534,7 +531,7 @@
 </section>
 
 <!-- 6. Driver Hiring -->
-<section class="bg-secondary text-white overflow-hidden relative">
+<section id="driver-hiring" class="bg-secondary text-white overflow-hidden relative">
   <div class="flex flex-col md:flex-row min-h-[500px]">
     <div class="w-full md:w-1/2 relative h-80 md:h-auto fade-in-section">
       <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop" alt="Driver" class="w-full h-full object-cover grayscale opacity-60 hover:opacity-100 transition duration-700">
@@ -542,8 +539,8 @@
     </div>
     <div class="w-full md:w-1/2 flex flex-col justify-center p-10 md:p-24 relative z-10 fade-in-section">
       <div class="w-16 h-1 bg-primary mb-6"></div>
-      <h2 class="text-3xl md:text-5xl font-heading font-bold mb-6 leading-tight">Need a Professional <br><span class="text-primary">Chauffeur?</span></h2>
-      <p class="mb-8 text-slate-300 text-lg leading-relaxed">Don't want to drive in traffic? Hire our verified, uniformed, and professional chauffeurs to drive your car. Available on an hourly and daily basis.</p>
+      <h2 class="text-3xl md:text-5xl font-heading font-bold mb-6 leading-tight">Need a Professional <br><span class="text-primary">Driver?</span></h2>
+      <p class="mb-8 text-slate-300 text-lg leading-relaxed">Don't want to drive in traffic? Hire our verified and professional drivers to drive your car. Available on an hourly and daily basis.</p>
       <div class="space-y-4 mb-10">
         <div class="flex items-center"><i class="fas fa-shield-alt text-primary text-xl mr-4"></i> <span class="font-medium">Background Verified & Police Clearance</span></div>
         <div class="flex items-center"><i class="fas fa-user-tie text-primary text-xl mr-4"></i> <span class="font-medium">Uniformed & Punctual Staff</span></div>
@@ -558,8 +555,20 @@
 <section id="why-us" class="py-24 bg-white">
   <div class="container mx-auto px-6">
     <div class="text-center mb-20 fade-in-section">
+      <!-- Logo Added -->
+      <div class="flex justify-center mb-6">
+        <div class="w-24 h-24">
+          <img src="themes/custom/artravels_ui/images/logo_main.svg" class="w-full h-full object-contain">
+        </div>
+      </div>
       <h2 class="text-3xl md:text-5xl font-heading font-bold text-secondary mb-4">Why Choose Us?</h2>
-      <div class="w-24 h-1.5 bg-primary mx-auto rounded-full"></div>
+      <!-- Brand Paragraph Added -->
+      <p class="max-w-3xl mx-auto text-slate-500 text-lg leading-relaxed">
+        A R Travels stands on old-school values—trust, punctuality, and responsibility—
+        blended with today’s expectations of comfort and professionalism.
+        Every ride carries our name, and we treat that name like family silver.
+      </p>
+      <div class="w-24 h-1.5 bg-primary mx-auto rounded-full mt-6"></div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       <!-- Feature 1 -->
@@ -608,31 +617,51 @@
   </div>
 </section>
 
-<!-- 9. Booking Flow -->
-<section class="py-24 bg-light">
+<!-- 9. Booking Flow (Updated Infographic) -->
+<section class="py-24 bg-light overflow-hidden">
   <div class="container mx-auto px-6">
-    <h2 class="text-3xl md:text-4xl font-heading font-bold text-secondary text-center mb-20 fade-in-section">How It Works</h2>
-    <div class="flex flex-col md:flex-row justify-between items-center relative max-w-5xl mx-auto">
-      <!-- Connector Line -->
-      <div class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-slate-200 -z-10"></div>
+    <div class="text-center mb-20 fade-in-section">
+      <h2 class="text-3xl md:text-5xl font-heading font-bold text-secondary mb-4">How It Works</h2>
+      <div class="w-24 h-1.5 bg-primary mx-auto rounded-full"></div>
+    </div>
+
+    <div class="relative grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+      <!-- Connecting Dashed Line (Desktop Only) -->
+      <div class="hidden md:block absolute top-[50px] left-[15%] right-[15%] h-[2px] z-0">
+        <svg width="100%" height="4">
+          <line x1="0" y1="2" x2="100%" y2="2" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="12 8" class="flow-line" />
+        </svg>
+        <!-- Arrow Head Middle -->
+        <div class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-slate-300 bg-light px-2"><i class="fas fa-angle-right text-xl"></i></div>
+      </div>
 
       <!-- Step 1 -->
-      <div class="flex flex-col items-center bg-light p-4 z-10 fade-in-section">
-        <div class="w-24 h-24 rounded-3xl bg-white border border-slate-100 text-secondary flex items-center justify-center text-3xl font-bold mb-6 shadow-soft transform hover:scale-110 transition">1</div>
-        <h4 class="font-heading font-bold text-xl mb-2">Choose Service</h4>
-        <p class="text-sm text-slate-500 font-medium">Select Car or Driver</p>
+      <div class="step-item relative group flex flex-col items-center text-center fade-in-section z-10">
+        <div class="step-icon w-28 h-28 bg-white border-4 border-slate-100 rounded-full flex items-center justify-center text-4xl text-secondary shadow-lg relative bg-white z-10 group-hover:shadow-glow mb-8">
+          <i class="fas fa-car-side"></i>
+          <div class="absolute -right-12 top-1/2 -translate-y-1/2 hidden md:block text-slate-300/50 text-4xl"></div>
+        </div>
+        <h4 class="font-heading font-bold text-2xl mb-3 text-secondary group-hover:text-primary transition">1. Choose Ride</h4>
+        <p class="text-slate-500 font-medium px-4">Select your preferred car or chauffeur service from our premium fleet.</p>
       </div>
+
       <!-- Step 2 -->
-      <div class="flex flex-col items-center bg-light p-4 z-10 fade-in-section" style="transition-delay: 0.1s;">
-        <div class="w-24 h-24 rounded-3xl bg-white border border-slate-100 text-secondary flex items-center justify-center text-3xl font-bold mb-6 shadow-soft transform hover:scale-110 transition">2</div>
-        <h4 class="font-heading font-bold text-xl mb-2">Enter Details</h4>
-        <p class="text-sm text-slate-500 font-medium">Name, Date & Phone</p>
+      <div class="step-item relative group flex flex-col items-center text-center fade-in-section z-10" style="transition-delay: 0.2s;">
+        <div class="step-icon w-28 h-28 bg-white border-4 border-slate-100 rounded-full flex items-center justify-center text-4xl text-secondary shadow-lg relative bg-white z-10 group-hover:shadow-glow mb-8">
+          <i class="fas fa-clipboard-list"></i>
+          <div class="absolute -right-12 top-1/2 -translate-y-1/2 hidden md:block text-slate-300/50 text-4xl"></div>
+        </div>
+        <h4 class="font-heading font-bold text-2xl mb-3 text-secondary group-hover:text-primary transition">2. Share Details</h4>
+        <p class="text-slate-500 font-medium px-4">Provide your travel date and contact info via our simple booking form.</p>
       </div>
+
       <!-- Step 3 -->
-      <div class="flex flex-col items-center bg-light p-4 z-10 fade-in-section" style="transition-delay: 0.2s;">
-        <div class="w-24 h-24 rounded-3xl bg-primary text-secondary flex items-center justify-center text-3xl font-bold mb-6 shadow-glow transform hover:scale-110 transition">3</div>
-        <h4 class="font-heading font-bold text-xl mb-2 text-secondary">Connect WhatsApp</h4>
-        <p class="text-sm text-slate-500 font-medium">Instant Confirmation</p>
+      <div class="step-item relative group flex flex-col items-center text-center fade-in-section z-10" style="transition-delay: 0.4s;">
+        <div class="step-icon w-28 h-28 bg-secondary border-4 border-primary rounded-full flex items-center justify-center text-4xl text-primary shadow-glow relative z-10 mb-8">
+          <i class="fab fa-whatsapp"></i>
+        </div>
+        <h4 class="font-heading font-bold text-2xl mb-3 text-secondary group-hover:text-primary transition">3. Instant Confirm</h4>
+        <p class="text-slate-500 font-medium px-4">Connect directly on WhatsApp for instant confirmation and support.</p>
       </div>
     </div>
   </div>
@@ -695,22 +724,26 @@
   </div>
 </section>
 
-<!-- 12. Footer with Animation -->
-<footer class="bg-secondary text-white pt-24">
-  <div class="container mx-auto px-6 pb-12 fade-in-section">
+<!-- 12. Footer with Modern Animation (UPDATED POSITION) -->
+<footer class="bg-secondary text-white">
+  <!-- Footer Content -->
+  <div class="container mx-auto px-6 py-12 fade-in-section">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
       <!-- Brand -->
       <div class="space-y-6">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-secondary font-bold">AR</div>
-          <h3 class="text-2xl font-heading font-bold">A R Travels</h3>
+        <div class="flex items-center gap-4">
+          <div class="w-20 h-20 rounded-2xl flex items-center justify-center shadow-xl transform group-hover:rotate-6 transition duration-300 bg-white">
+            <img src="/themes/custom/artravels_ui/images/logo_main.svg" class="w-full h-full object-contain">
+          </div>
+          <h3 class="text-3xl font-heading font-extrabold">
+            A R Travels
+          </h3>
         </div>
-        <p class="text-slate-400 text-sm leading-relaxed max-w-xs">Premium car rentals and professional driver services committed to safety, punctuality, and comfort.</p>
-        <div class="flex gap-4">
-          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-secondary transition transform hover:-translate-y-1"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-secondary transition transform hover:-translate-y-1"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-secondary transition transform hover:-translate-y-1"><i class="fab fa-twitter"></i></a>
-        </div>
+
+        <p class="text-slate-400 text-sm leading-relaxed max-w-xs">
+          Premium car rentals and professional driver services rooted in trust,
+          safety, and timeless service ethics.
+        </p>
       </div>
       <!-- Links -->
       <div>
@@ -732,38 +765,11 @@
         </ul>
       </div>
     </div>
-    <div class="border-t border-slate-800 pt-8 text-center text-xs text-slate-600">
+    <div class="border-t border-slate-800 pt-8 text-center text-xs text-slate-600 relative z-20">
       &copy; 2026 A R Travels. All rights reserved. Designed with <i class="fas fa-heart text-red-500"></i> by <u><a
           href="https://meghive.com" target="_blank">meghive.com</a></u>
     </div>
   </div>
-
-  <!-- CSS/SVG Animation Loop (Dark Theme) -->
-{#  <div class="footer-road-scene">#}
-{#    <div class="traffic-light">#}
-{#      <div class="light red"></div>#}
-{#      <div class="light yellow"></div>#}
-{#      <div class="light green"></div>#}
-{#    </div>#}
-
-{#    <div class="road-line"></div>#}
-
-{#    <!-- SVG Car 1 (Sedan - Yellow/Accent) -->#}
-{#    <svg class="animated-car car-1" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">#}
-{#      <path d="M10,25 L15,15 L35,15 L45,25 L85,25 C88,25 90,27 90,30 L90,35 L5,35 L5,30 C5,27 7,25 10,25 Z" fill="#F7C600"/>#}
-{#      <circle cx="20" cy="35" r="5" fill="#1e1b4b"/>#}
-{#      <circle cx="75" cy="35" r="5" fill="#1e1b4b"/>#}
-{#      <rect x="50" y="17" width="20" height="6" fill="#1e1b4b" opacity="0.5"/>#}
-{#    </svg>#}
-
-{#    <!-- SVG Car 2 (SUV - Silver for contrast) -->#}
-{#    <svg class="animated-car car-2" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">#}
-{#      <path d="M5,25 L10,10 L40,10 L50,25 L90,25 C93,25 95,27 95,30 L95,35 L0,35 L0,30 C0,27 2,25 5,25 Z" fill="#CBD5E1"/>#}
-{#      <circle cx="20" cy="35" r="5" fill="#000"/>#}
-{#      <circle cx="80" cy="35" r="5" fill="#000"/>#}
-{#      <rect x="15" y="13" width="20" height="10" fill="#1e1b4b" opacity="0.3"/>#}
-{#    </svg>#}
-{#  </div>#}
 </footer>
 
 <!-- Universal Booking Modal (Glassmorphism) -->
@@ -826,7 +832,7 @@
 </div>
 
 <!-- Floating WhatsApp Button -->
-<a href="https://wa.me/919876543210" target="_blank" class="fixed bottom-8 right-8 z-40 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-3xl shadow-glow hover:scale-110 transition duration-300">
+<a href="https://api.whatsapp.com/send/?phone=+919073912097&text=Hello.%0D%0AI+have+a+querry+about+your+service.&type=phone_number" target="_blank" class="fixed bottom-8 right-8 z-40 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-3xl shadow-glow hover:scale-110 transition duration-300">
   <i class="fab fa-whatsapp"></i>
 </a>
 
